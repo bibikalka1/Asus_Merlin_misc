@@ -1,0 +1,6 @@
+nvram set bwdpi_db_enable=1
+nvram set wrs_app_enable=1
+nvram set wrs_enable=1
+nvram set wrs_protect_enable=1
+nvram set TM_EULA=1
+nvram commit 

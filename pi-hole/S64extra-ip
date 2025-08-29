@@ -1,0 +1,27 @@
+#!/bin/sh
+
+ADDRESS=192.168.1.20/24
+INTERFACE=br0
+ENABLED=yes
+LABEL=br0:pihole
+
+case "$1" in
+    start|restart)
+        [ "$ENABLED" != "yes" ] && exit 0
+
+        if ! ip addr show dev "$INTERFACE" | grep -q "inet $ADDRESS "; then
+
+#            ip addr add "$ADDRESS" dev "$INTERFACE"
+            ip -4 addr add "$ADDRESS" brd + dev "$INTERFACE" label "$LABEL"
+            echo "Added $ADDRESS to $INTERFACE"
+        fi
+    ;;
+    stop|kill)
+        if ip addr show dev "$INTERFACE" | grep -q "inet $ADDRESS "; then
+#            ip addr delete "$ADDRESS" dev "$INTERFACE"
+            ip -4 addr delete "$ADDRESS" brd + dev "$INTERFACE" label "$LABEL"
+            echo "Removed $ADDRESS from $INTERFACE"
+        fi
+    ;;
+esac
+
